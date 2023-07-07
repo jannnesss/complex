@@ -25,6 +25,6 @@ jobs:
           docker build -t jannnesss/multi-server -f ./server
           docker build -t jannnesss/multi-worker -f ./worker
 
-      - name: Deploy
+      - name: Deploy test
         if: ${{ success() }}
         run: zip -r deploy.zip . -x '*.git*'
