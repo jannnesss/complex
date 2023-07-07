@@ -25,8 +25,10 @@ jobs:
           docker build -t jannnesss/multi-nginx ./nginx
           docker build -t jannnesss/multi-server ./server
           docker build -t jannnesss/multi-worker ./worker
-        run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          
+          docker push jannnesss:multi-client
+          docker push jannnesss/multi-nginx
+          docker push jannnesss/multi-server
+          docker push jannnesss/multi-worker
       - name: Deploy test
         run: zip -r deploy.zip . -x '*.git*'
