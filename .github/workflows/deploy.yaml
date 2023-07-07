@@ -10,19 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - name: Build Docker image
-      - run: docker build -t jannnesss/complex-test -f ./client/Dockerfile.dev .client
+        run: docker build -t jannnesss/complex-test -f ./client/Dockerfile.dev .client
 
       - name: Run tests
-      - run: docker run -e CI=true jannnesss/complex-test npm test
+        run: docker run -e CI=true jannnesss/complex-test npm test
 
       - name: Build Docker image
-      - run: docker build -t jannnesss/multi-client ./client
-      - run: docker build -t jannnesss/multi-nginx -f ./nginx
-      - run: docker build -t jannnesss/multi-server -f ./server
-      - run: docker build -t jannnesss/multi-worker -f ./worker
+        run: |
+          docker build -t jannnesss/multi-client ./client
+          docker build -t jannnesss/multi-nginx -f ./nginx
+          docker build -t jannnesss/multi-server -f ./server
+          docker build -t jannnesss/multi-worker -f ./worker
 
       - name: Deploy
         if: ${{ success() }}
