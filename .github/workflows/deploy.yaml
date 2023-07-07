@@ -1,0 +1,29 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches:
+      - main # check your repo, your default branch might be master!
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+      - run: docker build -t jannnesss/complex-test -f ./client/Dockerfile.dev .client
+
+      - name: Run tests
+      - run: docker run -e CI=true jannnesss/complex-test npm test
+
+      - name: Build Docker image
+      - run: docker build -t jannnesss/multi-client ./client
+             docker build -t jannnesss/multi-nginx -f ./nginx
+             docker build -t jannnesss/multi-server -f ./server
+             docker build -t jannnesss/multi-worker -f ./worker
+
+      - name: Deploy
+        if: ${{ success() }}
+        run: zip -r deploy.zip . -x '*.git*'
