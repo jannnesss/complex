@@ -19,11 +19,10 @@ jobs:
       - run: docker run -e CI=true jannnesss/complex-test npm test
 
       - name: Build Docker image
-      - run: |
-          docker build -t jannnesss/multi-client ./client
-          docker build -t jannnesss/multi-nginx -f ./nginx
-          docker build -t jannnesss/multi-server -f ./server
-          docker build -t jannnesss/multi-worker -f ./worker
+      - run: docker build -t jannnesss/multi-client ./client
+      - run: docker build -t jannnesss/multi-nginx -f ./nginx
+      - run: docker build -t jannnesss/multi-server -f ./server
+      - run: docker build -t jannnesss/multi-worker -f ./worker
 
       - name: Deploy
         if: ${{ success() }}
