@@ -4,7 +4,7 @@ services:
     restart: always
     build:
       dockerfile: Dockerfile.dev
-      context: /home/jan/Coding/private/Docker/complex/nginx
+      context: ./nginx
     ports:
       - '3050:80'
   postgres: 
@@ -16,10 +16,10 @@ services:
   api:
     build:
       dockerfile: Dockerfile.dev
-      context: /home/jan/Coding/private/Docker/complex/server
+      context: ./server
     volumes:
       - /home/node/app/node_modules
-      - /home/jan/Coding/private/Docker/complex/server:/home/node/app
+      - ./server:/home/node/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -34,16 +34,16 @@ services:
       context: ./client
     volumes:
       - /home/node/app/node_modules
-      - /home/jan/Coding/private/Docker/complex/client:/home/node/app
+      - ./client:/home/node/app
     environment:
       - WDS_SOCKET_PORT=0
   worker:
     build:
       dockerfile: Dockerfile.dev
-      context: /home/jan/Coding/private/Docker/complex/worker
+      context: ./worker
     volumes:
       - /home/node/app/node_modules
-      - /home/jan/Coding/private/Docker/complex/worker:/home/node/app
+      - ./worker:/home/node/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
